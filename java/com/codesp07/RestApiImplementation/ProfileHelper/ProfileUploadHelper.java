@@ -1,46 +1,38 @@
 package com.codesp07.RestApiImplementation.ProfileHelper;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
+
+import java.util.Base64;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 
 @Component
 public class ProfileUploadHelper {
-	public final String UPLOAD_DIR = "C:\\Users\\Admin\\Desktop\\shivamUpesDocs\\internityFoundation\\JAVAEE_SPRING\\RestApiImplementation\\src\\main\\resources\\static\\image";
-//	public final String UPLOAD_DIR = new ClassPathResource("static/image/").getFile().getAbsolutePath();
-
-	public ProfileUploadHelper() throws IOException
-	{
-		
-	}
+	private final String UPLOAD_DIR = "C:\\Users\\Admin\\Desktop\\shivamUpesDocs\\internityFoundation\\JAVAEE_SPRING\\RestApiImplementation\\src\\main\\resources\\static\\image";
+//	private final String UPLOAD_DIR = new ClassPathResource("static/image/").getFile().getAbsolutePath();
+	public ProfileUploadHelper() throws IOException {}
 	
-	public boolean uploadFile(MultipartFile multipartFile) {
 	
-		boolean f = false;
-		
+	public String uploadEncodedImage(String encodedImage,String filename) {	
+		String path = null;
 		try {
-//			InputStream is = multipartFile.getInputStream();
-//			byte data[] = new byte[is.available()];
-//			is.read(data);
-//			
-//			FileOutputStream fos = new FileOutputStream(UPLOAD_DIR+File.separator+multipartFile.getOriginalFilename());
-//		fos.write(data);
-//			
-//		fos.flush();
-//		fos.close();
+			System.out.println("reading");
+			//System.out.println(encodedImage);
+			byte contains[] = Base64.getDecoder().decode(encodedImage);
+			String directory = UPLOAD_DIR+File.separator+filename+".jpeg";
+			System.out.println("Start writing >>>>>>>>");
 			
-		Files.copy(multipartFile.getInputStream(), Paths.get(UPLOAD_DIR+File.separator+multipartFile.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
-		return f = true;
-		}catch(Exception e) {
-			e.printStackTrace();
+			new FileOutputStream(directory).write(contains);
+			
+			System.out.println("End Writing>>>>>>>>>>");
+			path = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(filename+".jpeg").toUriString();
+		} catch (Exception e) {
+			return path;
 		}
-		
-		return f;
-		
+		return path;
 	}
 }

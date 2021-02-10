@@ -154,5 +154,10 @@ public class UserOperation implements UserService{
 		return userrepo.findByRollno(Rollno);
 	}
 
-
+	  
+	  public User registerUser(User user) {
+			return userrepo.save(user);
+			
+		}
+	  
 }

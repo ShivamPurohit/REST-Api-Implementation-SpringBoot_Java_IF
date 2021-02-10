@@ -32,7 +32,6 @@ public interface UserService{
 
 	public User findByrollno(int Rollno);
 
-
-
+	public User registerUser(User user);
 
 }

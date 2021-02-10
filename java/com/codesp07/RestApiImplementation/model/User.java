@@ -19,6 +19,7 @@ private int rollno;
 	private String username;
 	private String email;
 	private String pass;
+	private String profile;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "post_fk",referencedColumnName = "Rollno")
@@ -97,6 +98,14 @@ private int rollno;
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+	
+	public String getProfile() {
+		return profile;
+	}
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+	
 	@Override
 	public String toString() {
 		return "Alien [Rollno=" + rollno + ", username=" + username + ", emailId=" + email + ", password=" + pass
